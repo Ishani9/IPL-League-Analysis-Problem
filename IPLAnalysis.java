@@ -24,7 +24,7 @@ public class IPLAnalysis {
 		@SuppressWarnings("unchecked")
 		CSVBuilderInterface<CSVRuns> csvBuilder = CSVBuilderFactory.createCSVBuilder();
 		csvRunsList = csvBuilder.getCSVFileList(reader, CSVRuns.class);
-		return csvRunsList.size();
+		return csvRunsList.size();		
 	}
 
 	public int loadDataOfWickets(String CSVFile) throws IOException, CSVBuilderException {
@@ -53,8 +53,15 @@ public class IPLAnalysis {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	public String getSRWiseSortedData() {
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.strikeRate);
+		this.sort(csvRunsList, comparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
 
-	private <E> void sort(List<E> csvList, Comparator<E> comparator) {
+	public <E> void sort(List<E> csvList, Comparator<E> comparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
 				E player1 = csvList.get(j);
